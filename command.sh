@@ -1,0 +1,1 @@
+g++ src/Node.cpp src/Directory.cpp src/File.cpp src/Utils.cpp src/main.cpp -o main
