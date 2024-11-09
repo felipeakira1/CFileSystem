@@ -2,12 +2,12 @@
 
 Directory::Directory(const std::string& name) : Node(name) {}
 
-void Directory::addChild(const std::shared_ptr<Node>& child) {
+void Directory::addChild(std::shared_ptr<Node> child) {
     child->setParent(shared_from_this());  // Set parent using shared_ptr
     children.push_back(child);
 }
 
-std::shared_ptr<Node> Directory::getChild(const std::string& childName) const {
+std::shared_ptr<Node> Directory::getChild(std::string& childName) {
     for (const auto& child : children) {
         if (child->getName() == childName) {
             return child;
@@ -16,7 +16,7 @@ std::shared_ptr<Node> Directory::getChild(const std::string& childName) const {
     return nullptr;  // Return nullptr if not found
 }
 
-bool Directory::removeChild(const std::string& childName) {
+bool Directory::removeChild(std::string& childName) {
     auto it = std::find_if(children.begin(), children.end(),
                            [&childName](const std::shared_ptr<Node>& node) {
                                return node->getName() == childName;
@@ -28,7 +28,7 @@ bool Directory::removeChild(const std::string& childName) {
     return false;  // Child not found
 }
 
-void Directory::list() const {
+void Directory::list() {
     if(children.empty()) {
         std::cout << "empty\n";
         return;
@@ -51,17 +51,32 @@ void Directory::list() const {
     std::cout << "\nTotal size: " << size() << " bytes" << std::endl;
 }
 
-void Directory::print(int level) const {
+void Directory::print(int level) {
     std::cout << std::string(level * 2, ' ') << name << "/\n";
     for (const auto& child : children) {
         child->print(level + 1);
     }
 }
 
-size_t Directory::size() const {
+size_t Directory::size() {
     size_t totalSize = 0;
     for (const auto& child : children) {
         totalSize += child->size();
     }
     return totalSize;
+}
+
+shared_ptr<Node> Directory::searchFile(const string& filename) {
+    for (auto& child : children) {
+        if (child->getName() == filename) {
+            return child;
+        }
+        if (auto dir = std::dynamic_pointer_cast<Directory>(child)) {
+            auto found = dir->searchFile(filename);
+            if (found) {
+                return found;
+            }
+        }
+    }
+    return nullptr;
 }

@@ -1,17 +1,17 @@
 #include "../include/Node.h"
 
-Node::Node(const std::string& name) : name(name) {}
+Node::Node(const string& name) : name(name) {}
 
 Node::~Node() {}
 
-std::string Node::getName() const {
+string Node::getName() {
     return name;
 }
 
-std::shared_ptr<Node> Node::getParent() const {
+shared_ptr<Node> Node::getParent() {
     return parent.lock();
 }
 
-void Node::setParent(const std::shared_ptr<Node>& newParent) {
+void Node::setParent(shared_ptr<Node> newParent) {
     parent = newParent;
 }

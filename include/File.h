@@ -10,10 +10,10 @@ private:
 
 public:
     File(const std::string& name);
-    void write(const std::string& data);   
-    void read() const;
-    void print(int level = 0) const override;
-    size_t size() const override;
+    void write(std::string& data);   
+    void read();
+    void print(int level = 0) override;
+    size_t size() override;
 };
 
 #endif

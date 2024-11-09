@@ -23,6 +23,7 @@ void showHelp() {
               << "  createfile <name> - Create a file\n"
               << "  writefile <name> <content> - Write content to a file\n"
               << "  readfile <name> - Read content from a file\n"
+              << "  searchfile <name> - Search for a file by name\n"
               << "  remove <name> - Remove a file or directory (must be empty)\n"
               << "  cd <name> - Change directory\n"
               << "  printpath - Print the current path\n"
@@ -124,7 +125,19 @@ int main() {
             } else {
                 std::cout << "Not a file\n";
             }
-        } else {
+        } else if (command == "searchfile") {
+            if (tokens.size() < 2) {
+                std::cout << "Usage: searchfile <name>\n";
+                continue;
+            }
+            auto found = root->searchFile(tokens[1]);
+            if (found) {
+                std::cout << "File found: " << tokens[1] << "\n";
+            } else {
+                std::cout << "File not found\n";
+            }
+        } 
+        else {
             std::cout << "Unknown command\n";
         }
     }

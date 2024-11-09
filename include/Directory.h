@@ -6,19 +6,21 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+using namespace std;
 
 class Directory : public Node {
 private:
-    std::vector<std::shared_ptr<Node>> children;
+    vector<shared_ptr<Node>> children;
 
 public:
-    Directory(const std::string& name);
-    void addChild(const std::shared_ptr<Node>& child);
-    std::shared_ptr<Node> getChild(const std::string& childName) const;
-    bool removeChild(const std::string& childName);
-    void list() const;
-    void print(int level = 0) const override;
-    size_t size() const override;
+    Directory(const string& name);
+    void addChild(shared_ptr<Node> child);
+    shared_ptr<Node> getChild(string& childName);
+    bool removeChild(string& childName);
+    void list();
+    void print(int level = 0) override;
+    size_t size() override;
+    shared_ptr<Node> searchFile(const string& filename);
 };
 
 #endif  // DIRECTORY_H
